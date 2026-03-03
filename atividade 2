@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Aprendendo Redes de Computadores</title>
+
+    <!-- Fonte do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #001A6E, #074799);
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .container {
+            background: white;
+            width: 800px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #001A6E;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #074799;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        hr {
+            margin: 30px 0;
+            border: none;
+            height: 2px;
+            background: #E1FFBB;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f4f8ff;
+            border-radius: 10px;
+        }
+
+        input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #009990;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #007777;
+            transform: scale(1.02);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>📡 Redes de Computadores</h1>
+
+    <p>
+        Redes de computadores são estruturas que permitem a conexão entre dispositivos
+        para compartilhar dados e recursos como internet, arquivos e impressoras.
+    </p>
+
+    <h2>🔹 O que é uma Rede?</h2>
+    <p>
+        Uma rede conecta computadores através de cabos ou Wi-Fi.
+        Isso permite comunicação rápida e segura entre dispositivos.
+    </p>
+
+    <h2>🔹 Tipos de Rede</h2>
+    <ul>
+        <li><strong>LAN</strong> – Rede Local (ex: casa ou escola)</li>
+        <li><strong>MAN</strong> – Rede Metropolitana (ex: cidade)</li>
+        <li><strong>WAN</strong> – Rede de Longa Distância (ex: Internet)</li>
+    </ul>
+
+    <h2>🔹 Endereço IP</h2>
+    <p>
+        O IP é um número único que identifica cada dispositivo dentro de uma rede.
+        Ele permite que as informações cheguem ao destino correto.
+    </p>
+
+    <hr>
+
+    <h2>🧠 Questionário</h2>
+
+    <form>
+
+        <div class="question">
+            <p><strong>1) O que é uma rede de computadores?</strong></p>
+            <input type="radio" name="q1"> Um antivírus <br>
+            <input type="radio" name="q1"> Conexão entre dispositivos para compartilhar dados <br>
+            <input type="radio" name="q1"> Um jogo online
+        </div>
+
+        <div class="question">
+            <p><strong>2) O que significa LAN?</strong></p>
+            <input type="radio" name="q2"> Local Area Network <br>
+            <input type="radio" name="q2"> Long Access Network <br>
+            <input type="radio" name="q2"> Large Area Node
+        </div>
+
+        <div class="question">
+            <p><strong>3) Para que serve o endereço IP?</strong></p>
+            <input type="radio" name="q3"> Aumentar a internet <br>
+            <input type="radio" name="q3"> Identificar um dispositivo na rede <br>
+            <input type="radio" name="q3"> Proteger contra vírus
+        </div>
+
+        <button type="submit">Enviar Respostas</button>
+
+    </form>
+
+    <footer>
+        Desenvolvido por Sam - Engenharia de Software 🚀
+    </footer>
+
+</div>
+
+</body>
+</html>
