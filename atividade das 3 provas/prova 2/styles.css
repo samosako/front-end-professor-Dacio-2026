@@ -1,4 +1,3 @@
-/* ===== RESET E BASE ===== */
 * {
     margin: 0;
     padding: 0;
@@ -7,13 +6,11 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f0f4f8;
     background-color: #f0f4f8;
     color: #333;
     line-height: 1.7;
 }
 
-/* ===== HEADER ===== */
 header {
     background-color: #1a3a5c;
     color: white;
@@ -34,7 +31,6 @@ header h2 {
     color: #a8c8e8;
 }
 
-/* ===== MAIN ===== */
 main {
     max-width: 960px;
     margin: 40px auto;
@@ -52,7 +48,7 @@ main > div {
     width: 100%;
 }
 
-/* ===== CARTÕES DE GRUPO ===== */
+/* cards dos grupos */
 .card-grupo {
     background-color: #ffffff;
     border: 1px solid #d0dde8;
@@ -61,7 +57,6 @@ main > div {
     width: 280px;
     flex: 1 1 240px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    align-items: flex-start;
 }
 
 .card-grupo h3 {
@@ -90,7 +85,6 @@ main > div {
     padding: 3px 0;
 }
 
-/* ===== DETAILS / SAIBA MAIS ===== */
 details {
     background-color: #e8f4fd;
     border-radius: 6px;
@@ -112,7 +106,6 @@ details p {
     color: #555;
 }
 
-/* ===== BOTÃO ===== */
 .botao-container {
     text-align: center;
     margin: 10px 0 40px;
@@ -133,7 +126,6 @@ button:hover {
     background-color: #2176ae;
 }
 
-/* ===== FOOTER ===== */
 footer {
     text-align: center;
     padding: 20px;
