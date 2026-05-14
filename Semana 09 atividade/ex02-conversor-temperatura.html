@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 02 - Conversor de Temperatura</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 440px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        p {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        .grupo {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #e67e22;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            outline: none;
+            font-size: 1.1em;
+            color: #2c3e50;
+        }
+
+        .unidade {
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #e67e22;
+            font-size: 1.1em;
+            border-left: 1px solid #ddd;
+        }
+
+        .seta {
+            text-align: center;
+            font-size: 1.5em;
+            color: #bdc3c7;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>🌡️ Conversor de Temperatura</h1>
+    <p>Digite em qualquer campo e a conversão acontece automaticamente</p>
+
+    <div class="grupo">
+        <label for="celsius">Celsius</label>
+        <div class="input-wrapper">
+            <input type="number" id="celsius" placeholder="Ex: 100" step="0.1">
+            <span class="unidade">°C</span>
+        </div>
+    </div>
+
+    <div class="seta">⇅</div>
+
+    <div class="grupo">
+        <label for="fahrenheit">Fahrenheit</label>
+        <div class="input-wrapper">
+            <input type="number" id="fahrenheit" placeholder="Ex: 212" step="0.1">
+            <span class="unidade">°F</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const campoCelsius = document.getElementById('celsius');
+    const campoFahrenheit = document.getElementById('fahrenheit');
+
+    campoCelsius.addEventListener('input', function() {
+        if (this.value === '') {
+            campoFahrenheit.value = '';
+            return;
+        }
+        const c = parseFloat(this.value);
+        const f = (c * 9 / 5) + 32;
+        campoFahrenheit.value = f.toFixed(2);
+    });
+
+    campoFahrenheit.addEventListener('input', function() {
+        if (this.value === '') {
+            campoCelsius.value = '';
+            return;
+        }
+        const f = parseFloat(this.value);
+        const c = (f - 32) * 5 / 9;
+        campoCelsius.value = c.toFixed(2);
+    });
+</script>
+
+</body>
+</html>
