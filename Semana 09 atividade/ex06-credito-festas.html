@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 06 - Crédito para Festas & Eventos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 460px;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .card-header h1 {
+            font-size: 1.4em;
+            color: #2c3e50;
+        }
+
+        .card-header p {
+            font-size: 0.88em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .grupo {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.88em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+
+        select,
+        input[type="number"] {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+            outline: none;
+            color: #2c3e50;
+            transition: border-color 0.2s;
+            background-color: #fff;
+        }
+
+        select:focus,
+        input[type="number"]:focus {
+            border-color: #e67e22;
+        }
+
+        .descricao-pacote {
+            font-size: 0.82em;
+            color: #7f8c8d;
+            margin-top: 5px;
+            min-height: 18px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 5px;
+        }
+
+        button:hover {
+            background-color: #1a252f;
+        }
+
+        #resultado {
+            margin-top: 25px;
+            display: none;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 15px 0;
+        }
+
+        .linha {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.92em;
+        }
+
+        .linha span:first-child {
+            color: #7f8c8d;
+        }
+
+        .linha span:last-child {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .linha.desconto span {
+            color: #27ae60;
+        }
+
+        .linha.desconto span:first-child {
+            font-weight: normal;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.05em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 5px;
+        }
+
+        .total span:last-child {
+            font-size: 1.2em;
+            color: #e67e22;
+        }
+
+        .badge-desconto {
+            display: inline-block;
+            background-color: #eafaf1;
+            color: #27ae60;
+            border: 1px solid #a9dfbf;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="card-header">
+        <h1>🎉 Infinity Bank</h1>
+        <p>Simulador de Crédito para Festas & Eventos</p>
+    </div>
+
+    <div class="grupo">
+        <label for="pacote">Pacote do Evento</label>
+        <select id="pacote" onchange="atualizarDescricao()">
+            <option value="">Selecione um pacote...</option>
+            <option value="50">Standard — R$ 50,00 por pessoa</option>
+            <option value="80">Premium — R$ 80,00 por pessoa</option>
+            <option value="120">Infinity Deluxe — R$ 120,00 por pessoa</option>
+        </select>
+        <p class="descricao-pacote" id="descricaoPacote"></p>
+    </div>
+
+    <div class="grupo">
+        <label for="pessoas">Quantidade de Convidados</label>
+        <input type="number" id="pessoas" placeholder="Ex: 150" min="1">
+    </div>
+
+    <button onclick="calcularOrcamento()">Calcular Orçamento</button>
+
+    <div id="resultado">
+        <hr class="divider">
+
+        <div id="badgeDesconto" style="display:none;">
+            <span class="badge-desconto">🎁 Desconto Fidelidade de 5% aplicado!</span>
+        </div>
+
+        <div class="linha">
+            <span>Custo Bruto</span>
+            <span id="exibBruto">—</span>
+        </div>
+        <div class="linha">
+            <span>Taxa de Serviço (10%)</span>
+            <span id="exibTaxa">—</span>
+        </div>
+        <div class="linha desconto" id="linhaDesconto" style="display:none;">
+            <span>Desconto Fidelidade (5%)</span>
+            <span id="exibDesconto">—</span>
+        </div>
+
+        <hr class="divider">
+
+        <div class="total">
+            <span>Total Final</span>
+            <span id="exibTotal">—</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function atualizarDescricao() {
+        const pacote = document.getElementById('pacote').value;
+        const descricao = document.getElementById('descricaoPacote');
+
+        switch (pacote) {
+            case '50':
+                descricao.textContent = 'Inclui buffet básico, decoração simples e 1 DJ.';
+                break;
+            case '80':
+                descricao.textContent = 'Inclui buffet completo, decoração temática, DJ e open bar.';
+                break;
+            case '120':
+                descricao.textContent = 'Inclui tudo do Premium + chef exclusivo, segurança e lounge VIP.';
+                break;
+            default:
+                descricao.textContent = '';
+        }
+    }
+
+    function calcularOrcamento() {
+        const pacote = parseFloat(document.getElementById('pacote').value);
+        const pessoas = parseInt(document.getElementById('pessoas').value);
+
+        if (isNaN(pacote) || isNaN(pessoas) || pessoas < 1) {
+            alert('Selecione um pacote e informe a quantidade de convidados.');
+            return;
+        }
+
+        // 1. Custo bruto
+        const custoBruto = pacote * pessoas;
+
+        // 2. Taxa de serviço (10%)
+        const taxaServico = custoBruto * 0.10;
+        const totalComTaxa = custoBruto + taxaServico;
+
+        // 3. Desconto fidelidade (5% se mais de 100 convidados)
+        let desconto = 0;
+        let totalFinal = totalComTaxa;
+
+        if (pessoas > 100) {
+            desconto = totalComTaxa * 0.05;
+            totalFinal = totalComTaxa - desconto;
+        }
+
+        // Exibe os valores
+        document.getElementById('exibBruto').textContent = 'R$ ' + custoBruto.toFixed(2);
+        document.getElementById('exibTaxa').textContent = 'R$ ' + taxaServico.toFixed(2);
+        document.getElementById('exibTotal').textContent = 'R$ ' + totalFinal.toFixed(2);
+
+        // Mostra ou esconde o desconto
+        if (pessoas > 100) {
+            document.getElementById('badgeDesconto').style.display = 'block';
+            document.getElementById('linhaDesconto').style.display = 'flex';
+            document.getElementById('exibDesconto').textContent = '- R$ ' + desconto.toFixed(2);
+        } else {
+            document.getElementById('badgeDesconto').style.display = 'none';
+            document.getElementById('linhaDesconto').style.display = 'none';
+        }
+
+        document.getElementById('resultado').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

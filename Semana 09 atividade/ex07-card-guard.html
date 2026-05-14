@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 07 - Card Guard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #0d1117;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: #161b22;
+            padding: 36px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 480px;
+            border: 1px solid #30363d;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .logo h1 {
+            font-size: 1.4em;
+            color: #58a6ff;
+            letter-spacing: 1px;
+        }
+
+        .logo p {
+            font-size: 0.82em;
+            color: #8b949e;
+            margin-top: 4px;
+        }
+
+        .grupo {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.82em;
+            font-weight: 600;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #e6edf3;
+            font-size: 1.1em;
+            letter-spacing: 2px;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: 'Consolas', monospace;
+        }
+
+        input:focus {
+            border-color: #58a6ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            background-color: #238636;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #2ea043;
+        }
+
+        #painel {
+            display: none;
+            margin-top: 24px;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .painel-header {
+            padding: 12px 16px;
+            font-size: 0.82em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #8b949e;
+            background: #0d1117;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .info-linha {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 16px;
+            border-bottom: 1px solid #21262d;
+            font-size: 0.9em;
+        }
+
+        .info-linha:last-child {
+            border-bottom: none;
+        }
+
+        .info-linha span:first-child {
+            color: #8b949e;
+        }
+
+        .info-linha span:last-child {
+            color: #e6edf3;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 700;
+        }
+
+        .badge-valido {
+            background-color: #1f4a27;
+            color: #56d364;
+            border: 1px solid #2ea043;
+        }
+
+        .badge-invalido {
+            background-color: #4a1c1c;
+            color: #f85149;
+            border: 1px solid #da3633;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="logo">
+        <h1>🛡️ Card Guard</h1>
+        <p>Infinity Bank — Validador de Segurança</p>
+    </div>
+
+    <div class="grupo">
+        <label for="numCartao">Número do Cartão</label>
+        <input type="text" id="numCartao" placeholder="0000 0000 0000 0000" maxlength="19">
+    </div>
+
+    <button onclick="analisarCartao()">Analisar Cartão</button>
+
+    <div id="painel">
+        <div class="painel-header">Painel de Informações</div>
+        <div class="info-linha">
+            <span>Status</span>
+            <span id="exibStatus">—</span>
+        </div>
+        <div class="info-linha">
+            <span>Bandeira</span>
+            <span id="exibBandeira">—</span>
+        </div>
+        <div class="info-linha">
+            <span>Categoria de Setor</span>
+            <span id="exibSetor">—</span>
+        </div>
+        <div class="info-linha">
+            <span>Banco Emissor</span>
+            <span id="exibBanco">—</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Formata com espaços a cada 4 dígitos
+    document.getElementById('numCartao').addEventListener('input', function() {
+        let val = this.value.replace(/\D/g, '').substring(0, 16);
+        val = val.replace(/(.{4})/g, '$1 ').trim();
+        this.value = val;
+    });
+
+    // Algoritmo de Luhn
+    function luhn(num) {
+        const digits = num.split('').reverse().map(Number);
+        let soma = 0;
+        for (let i = 0; i < digits.length; i++) {
+            let d = digits[i];
+            if (i % 2 === 1) {
+                d *= 2;
+                if (d > 9) d -= 9;
+            }
+            soma += d;
+        }
+        return soma % 10 === 0;
+    }
+
+    // Identifica a bandeira pelo prefixo
+    function identificarBandeira(num) {
+        if (/^4/.test(num))                         return 'Visa';
+        if (/^5[1-5]/.test(num))                    return 'Mastercard';
+        if (/^3[47]/.test(num))                     return 'American Express';
+        if (/^6(?:011|5)/.test(num))                return 'Discover';
+        if (/^3(?:0[0-5]|[68])/.test(num))          return 'Diners Club';
+        if (/^(?:2131|1800|35)/.test(num))          return 'JCB';
+        if (/^(?:636368|438935|504175|451416|636297|5067|4576|4011)/.test(num)) return 'Elo';
+        if (/^(?:6062|3841)/.test(num))             return 'Hipercard';
+        return 'Desconhecida';
+    }
+
+    // Identifica o setor pelo primeiro dígito (MII)
+    function identificarSetor(primeiro) {
+        const setores = {
+            '1': 'Aéreo e Financeiro',
+            '2': 'Aéreo e Financeiro',
+            '3': 'Viagens e Entretenimento',
+            '4': 'Bancário e Financeiro',
+            '5': 'Bancário e Financeiro',
+            '6': 'Merchandising e Bancário',
+            '7': 'Petróleo e Combustíveis',
+            '8': 'Telecomunicações',
+            '9': 'Governo e Outros'
+        };
+        return setores[primeiro] || 'Desconhecido';
+    }
+
+    // Identifica o banco emissor pelos primeiros dígitos (BIN simplificado)
+    function identificarBanco(num) {
+        if (/^4111/.test(num)) return 'Visa Test Bank';
+        if (/^4000/.test(num)) return 'Visa International';
+        if (/^4024/.test(num)) return 'Visa — Banco do Brasil';
+        if (/^4550/.test(num)) return 'Visa — Bradesco';
+        if (/^5105/.test(num)) return 'Mastercard Test Bank';
+        if (/^5500/.test(num)) return 'Mastercard — Citibank';
+        if (/^5425/.test(num)) return 'Mastercard — Itaú';
+        if (/^5276/.test(num)) return 'Mastercard — Santander';
+        if (/^3714/.test(num)) return 'Amex — Banco Safra';
+        if (/^3782/.test(num)) return 'Amex — Bradesco';
+        if (/^6011/.test(num)) return 'Discover Bank';
+        if (/^6363/.test(num)) return 'Elo — Caixa Econômica';
+        if (/^6062/.test(num)) return 'Hipercard — Itaú';
+        return 'Emissor não identificado';
+    }
+
+    function analisarCartao() {
+        const raw = document.getElementById('numCartao').value.replace(/\D/g, '');
+
+        if (raw.length < 13 || raw.length > 16) {
+            alert('O número deve ter entre 13 e 16 dígitos.');
+            return;
+        }
+
+        const valido = luhn(raw);
+        const bandeira = identificarBandeira(raw);
+        const setor = identificarSetor(raw[0]);
+        const banco = identificarBanco(raw);
+
+        // Status com badge colorido
+        const statusEl = document.getElementById('exibStatus');
+        if (valido) {
+            statusEl.innerHTML = '<span class="badge badge-valido">✔ Válido</span>';
+        } else {
+            statusEl.innerHTML = '<span class="badge badge-invalido">✖ Inválido</span>';
+        }
+
+        document.getElementById('exibBandeira').textContent = bandeira;
+        document.getElementById('exibSetor').textContent = setor;
+        document.getElementById('exibBanco').textContent = banco;
+
+        document.getElementById('painel').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
