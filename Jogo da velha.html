@@ -1,0 +1,186 @@
+<html>
+  <body>
+    <div id= "root"> </div>
+    <div class= "board-row"> </div>
+  </body>
+ </html>
+ * {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+h3 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+h4 {
+  margin-top: 0;
+  font-size: 16px;
+}
+
+h5 {
+  margin-top: 0;
+  font-size: 14px;
+}
+
+h6 {
+  margin-top: 0;
+  font-size: 12px;
+}
+
+code {
+  font-size: 1.2em;
+}
+
+ul {
+  padding-inline-start: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+
+.square {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+.board-row:after {
+  clear: both;
+  content: '';
+  display: table;
+}
+
+.status {
+  margin-bottom: 10px;
+}
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info {
+  margin-left: 20px;
+}
+
+import React from "https://esm.sh/react";
+import ReactDOM from "https://esm.sh/react-dom";
+import { StrictMode } from "https://esm.sh/react";
+import { createRoot } from "https://esm.sh/react-dom/client";
+import { useState } from "https://esm.sh/react";
+
+function calcularVencedor(squares) {
+  const linhas = [
+    [0, 1, 2],[3, 4, 5],[6, 7, 8],
+    [0, 3, 6],[1, 4, 7],[2, 5, 8],
+    [0, 4, 8],[2, 4, 6],
+  ];
+  for (let [a, b, c] of linhas) {
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+}
+
+function Square({ valor, onSquareClick }) {
+  return (
+    <button className="square" onClick={onSquareClick}>
+      {valor}
+    </button>
+  );
+}
+
+function Board() {
+  const [squares, setSquares] = useState(Array(9).fill(null));
+  const [xIsNext, setXIsNext] = useState(true);
+
+  const vencedor = calcularVencedor(squares);
+  const empate = !vencedor && squares.every((s) => s !== null);
+
+  let status;
+  if (vencedor) {
+    status = "Vencedor: " + vencedor;
+  } else if (empate) {
+    status = "Empate!";
+  } else {
+    status = "Próximo jogador: " + (xIsNext ? "X" : "O");
+  }
+
+  function handleClick(i) {
+    if (squares[i] || calcularVencedor(squares)) return;
+    const novoSquares = squares.slice();
+    novoSquares[i] = xIsNext ? "X" : "O";
+    setSquares(novoSquares);
+    setXIsNext(!xIsNext);
+  }
+
+  function reiniciar() {
+    setSquares(Array(9).fill(null));
+    setXIsNext(true);
+  }
+
+  return (
+    <>
+      <div className="status">{status}</div>
+      <div className="board-row">
+        <Square valor={squares[0]} onSquareClick={() => handleClick(0)} />
+        <Square valor={squares[1]} onSquareClick={() => handleClick(1)} />
+        <Square valor={squares[2]} onSquareClick={() => handleClick(2)} />
+      </div>
+      <div className="board-row">
+        <Square valor={squares[3]} onSquareClick={() => handleClick(3)} />
+        <Square valor={squares[4]} onSquareClick={() => handleClick(4)} />
+        <Square valor={squares[5]} onSquareClick={() => handleClick(5)} />
+      </div>
+      <div className="board-row">
+        <Square valor={squares[6]} onSquareClick={() => handleClick(6)} />
+        <Square valor={squares[7]} onSquareClick={() => handleClick(7)} />
+        <Square valor={squares[8]} onSquareClick={() => handleClick(8)} />
+      </div>
+      <br />
+      <button onClick={reiniciar} style={{marginTop:"8px", padding:"4px 12px", cursor:"pointer"}}>
+        Reiniciar
+      </button>
+    </>
+  );
+}
+
+const root = createRoot(document.getElementById("root"));
+root.render(
+  <StrictMode>
+    <Board />
+  </StrictMode>
+);
